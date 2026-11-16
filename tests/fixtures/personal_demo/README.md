@@ -1,0 +1,1 @@
+Synthetic test fixtures only. A/B deliberately conflict; NEW is a replacement-comparison fixture. INJECTION is adversarial text, never a real policy. Upload only to a personal test workspace. No file is indexed by this generator.

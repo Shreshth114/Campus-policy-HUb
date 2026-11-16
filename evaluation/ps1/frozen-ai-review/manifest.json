@@ -1,0 +1,13 @@
+{
+  "source_sha256": "cbc1d54d9880969657796e9a5865bcff07bf2264420b152cb1f20055868d6c80",
+  "labels_sha256": "cdb86659366f5f33dab9da444e0d8ff2c9fe228c7bdbbcca8ec7e206e79f3fe5",
+  "review_type": "AI-assisted; no human verification",
+  "human_verified": false,
+  "status": "frozen_before_execution",
+  "question_count": 10,
+  "scoring": "Exact-span coverage is mechanical evidence coverage, not semantic accuracy; human final review pending",
+  "mode_order": "cyclic raw/hyde/fusion by question index",
+  "repetitions": 1,
+  "answer_cache": false,
+  "hyde_cache": false
+}

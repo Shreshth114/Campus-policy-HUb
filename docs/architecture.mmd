@@ -1,0 +1,23 @@
+flowchart TD
+    S[Student: no administrator account] --> P[Personal capability workspace]
+    P --> U[PDF validation: bytes, content, pages, document count]
+    U --> E[Extract and chunk: untrusted evidence]
+    E --> V[(Scoped Chroma + version/hash registry)]
+    S --> Q[Question + mandatory workspace scope]
+    Q --> H[Raw / HyDE search key / Fusion]
+    H --> V
+    V --> G[Live scope, current version and confidence guards]
+    G --> A[Answer: original question + actual source chunks]
+    A --> C[Citation and cache fingerprint validation]
+    C --> R[Unverified-upload trust label + evidence cards]
+    V --> X[LLM extracts numeric rules]
+    X --> B[Exact quote, number, operator and unit validation]
+    B --> RB[Rule Book + possible conflicts + version-table differences]
+    S --> F[Student confirms facts and applicability]
+    RB --> D[Deterministic Decimal comparisons]
+    F --> D
+    D --> I[Computed statuses + missing facts]
+    I --> N[Optional constrained explanation; code verdict unchanged]
+    AD[Secondary: authenticated institution admin] --> IV[Separate institution registry and publication]
+    IV --> K[Approved current institutional evidence only]
+    K --> G

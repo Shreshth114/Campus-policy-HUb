@@ -1,0 +1,29 @@
+[
+  {
+    "id": "dev-attendance",
+    "query": "According to the uploaded B.Tech regulations, what is the minimum attendance required for medical condonation, and what is the minimum overall attendance allowed?",
+    "source_groups": [],
+    "required_exact_spans": [],
+    "expect": "answer",
+    "labels_verified": false,
+    "review_type": "development_diagnostic_not_scored"
+  },
+  {
+    "id": "dev-compound",
+    "query": "If I pay my semester fees after classes start, how much is the late fee, and by when must I pay?",
+    "source_groups": [],
+    "required_exact_spans": [],
+    "expect": "answer",
+    "labels_verified": false,
+    "review_type": "development_diagnostic_not_scored"
+  },
+  {
+    "id": "dev-reinstatement",
+    "query": "I temporarily discontinued my B.Tech studies for a semester. What is the procedure to return and register again?",
+    "source_groups": [],
+    "required_exact_spans": [],
+    "expect": "answer",
+    "labels_verified": false,
+    "review_type": "development_diagnostic_not_scored"
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "relevant": false,
+  "complete": false,
+  "qualifications_preserved": false,
+  "supported": false,
+  "reasons": [
+    "The selected provisions (C1/P1 and C1/P2) state that a student must register within the announced time and pay the prescribed fees; they do not provide any exemption for students who have passed every summer subject. Therefore the selection does not address the request to ignore the deadline and fee.",
+    "Because the evidence directly contradicts the claim, the answer is not supported, not complete, and does not preserve any qualifications."
+  ],
+  "coverage": [
+    {
+      "requirement_id": "Q0",
+      "status": "unsupported",
+      "evidence": [],
+      "reason": "No evidence shows that passing all summer subjects waives the registration deadline or fee; the cited rules require registration and payment."
+    }
+  ]
+}

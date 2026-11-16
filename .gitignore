@@ -1,0 +1,41 @@
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Local databases, workspaces, documents and caches
+.chroma*/
+data/**
+!data/decoys/
+!data/decoys/*.txt
+!data/raw/
+!data/raw/.gitkeep
+!data/processed/
+!data/processed/.gitkeep
+audit_inputs/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+.DS_Store
+*.log
+backups/
+
+# Private/generated experiment artifacts
+bench/results/
+audit/results/
+improve_hyde/backups/
+improve_hyde/cache/
+improve_hyde/results/
+improve_hyde/*.json
+evaluation/ps1/runs/**/code_snapshot/
+docs/screenshots/
+docs/*.json
+# Raw evaluation traces remain local; retain only public provenance and the minimal regression fixture.
+evaluation/ps1/runs/**/*.json
+!evaluation/ps1/runs/**/metadata.json
+!evaluation/ps1/runs/reliability-paced-2026-11-16/ps1-14-raw.json
+*.pdf
+!tests/fixtures/personal_demo/*.pdf
