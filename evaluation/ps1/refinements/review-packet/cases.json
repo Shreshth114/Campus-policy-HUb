@@ -1,0 +1,294 @@
+[
+  {
+    "id": "cr-01",
+    "document_id": "nit-goa-development",
+    "document_sha256": "cbc1d54d9880969657796e9a5865bcff07bf2264420b152cb1f20055868d6c80",
+    "question": "What attendance conditions and approvals apply to medical condonation?",
+    "source_pdf_page": 10,
+    "chunks": [
+      {
+        "text": "B11.4. Those who have 80% or more attendance for the period other than their medical leave will be considered for condonation of shortage of attendance, provided, the overall attendance in the course including the period of illness does not fall below 75%. Application for condonation, recommended by the Faculty Advisor, concerned faculty and the HoD is to be submitted to the AAC on or before the last instructional day of the semester. The AAC, depending on the merit of the case may permit the student to appear for the end semester exam. A student will be eligible for this concession at most in two semesters during the entire degree programme. Application for medical leave, supported by medical certificate with endorsement by the Institute Medical Officer (IMO), should reach the HoD within seven days after returning from leave or, on or before the last instructional day of the semester, whichever is earlier.",
+        "page": 10
+      }
+    ],
+    "selection": {
+      "status": "answer",
+      "claims": [
+        {
+          "source": "C1",
+          "provision": "P1"
+        }
+      ]
+    },
+    "purpose": "revealed_review_calibration_not_holdout",
+    "labels_verified": false
+  },
+  {
+    "id": "cr-02",
+    "document_id": "nit-goa-development",
+    "document_sha256": "cbc1d54d9880969657796e9a5865bcff07bf2264420b152cb1f20055868d6c80",
+    "question": "I missed the final examination due to illness. What make-up examination procedure applies?",
+    "source_pdf_page": 10,
+    "chunks": [
+      {
+        "text": "B11.4. Those who have 80% or more attendance for the period other than their medical leave will be considered for condonation of shortage of attendance, provided, the overall attendance in the course including the period of illness does not fall below 75%. Application for condonation, recommended by the Faculty Advisor, concerned faculty and the HoD is to be submitted to the AAC on or before the last instructional day of the semester. The AAC, depending on the merit of the case may permit the student to appear for the end semester exam. A student will be eligible for this concession at most in two semesters during the entire degree programme. Application for medical leave, supported by medical certificate with endorsement by the Institute Medical Officer (IMO), should reach the HoD within seven days after returning from leave or, on or before the last instructional day of the semester, whichever is earlier.",
+        "page": 10
+      }
+    ],
+    "selection": {
+      "status": "answer",
+      "claims": [
+        {
+          "source": "C1",
+          "provision": "P1"
+        }
+      ]
+    },
+    "purpose": "revealed_review_calibration_not_holdout",
+    "labels_verified": false
+  },
+  {
+    "id": "cr-03",
+    "document_id": "nit-goa-development",
+    "document_sha256": "cbc1d54d9880969657796e9a5865bcff07bf2264420b152cb1f20055868d6c80",
+    "question": "Has my professor personally approved my medical leave today?",
+    "source_pdf_page": 10,
+    "chunks": [
+      {
+        "text": "B11.4. Those who have 80% or more attendance for the period other than their medical leave will be considered for condonation of shortage of attendance, provided, the overall attendance in the course including the period of illness does not fall below 75%. Application for condonation, recommended by the Faculty Advisor, concerned faculty and the HoD is to be submitted to the AAC on or before the last instructional day of the semester. The AAC, depending on the merit of the case may permit the student to appear for the end semester exam. A student will be eligible for this concession at most in two semesters during the entire degree programme. Application for medical leave, supported by medical certificate with endorsement by the Institute Medical Officer (IMO), should reach the HoD within seven days after returning from leave or, on or before the last instructional day of the semester, whichever is earlier.",
+        "page": 10
+      }
+    ],
+    "selection": {
+      "status": "answer",
+      "claims": [
+        {
+          "source": "C1",
+          "provision": "P1"
+        }
+      ]
+    },
+    "purpose": "revealed_review_calibration_not_holdout",
+    "labels_verified": false
+  },
+  {
+    "id": "cr-04",
+    "document_id": "nit-goa-development",
+    "document_sha256": "cbc1d54d9880969657796e9a5865bcff07bf2264420b152cb1f20055868d6c80",
+    "question": "What attendance conditions and approvals apply to medical condonation?",
+    "source_pdf_page": 10,
+    "chunks": [
+      {
+        "text": "B11.4. Those who have 80% or more attendance for the period other than their medical leave will be considered for condonation of shortage of attendance, provided, the overall attendance in the course including the period of illness does not fall below 75%. Application for condonation, recommended by the Faculty Advisor, concerned faculty and the HoD is to be submitted to the AAC on or before the last instructional day of the semester. The AAC, depending on the merit of the case may permit the student to appear for the end semester exam. A student will be eligible for this concession at most in two semesters during the entire degree programme. Application for medical leave, supported by medical certificate with endorsement by the Institute Medical Officer (IMO), should reach the HoD within seven days after returning from leave or, on or before the last instructional day of the semester, whichever is earlier.",
+        "page": 10
+      }
+    ],
+    "selection": {
+      "status": "answer",
+      "claims": [
+        {
+          "source": "C1",
+          "quote": "B11.4. Those who have 80% or more attendance for the period other than their medical leave will be considered for condonation of shortage of attendance, provided, the overall attendance in the course including the period of illness does not fall below 75%."
+        }
+      ]
+    },
+    "purpose": "revealed_review_calibration_not_holdout",
+    "labels_verified": false
+  },
+  {
+    "id": "cr-05",
+    "document_id": "nit-goa-development",
+    "document_sha256": "cbc1d54d9880969657796e9a5865bcff07bf2264420b152cb1f20055868d6c80",
+    "question": "Will passing every summer subject let me ignore the summer registration deadline and fee?",
+    "source_pdf_page": 12,
+    "chunks": [
+      {
+        "text": "B17.2. Summer term courses will be announced by the AAC after the publication of results of the even semester, if a minimum of 20% of the total registered regular students fail in a course. A summer term course may be offered by a department on the recommendation of the CC/DCC and with the approval of the AAC. A student will have to register within the time stipulated in the announcement by paying the prescribed fees.\nB17.5. A student will have to register within the time stipulated in the announcement by paying the prescribed fees of ₹ 5000/- per course. The amount will change periodically as per Senate approval. (Amended in 23rd Senate meeting)",
+        "page": 12
+      }
+    ],
+    "selection": {
+      "status": "answer",
+      "claims": [
+        {
+          "source": "C1",
+          "provision": "P1"
+        },
+        {
+          "source": "C1",
+          "provision": "P2"
+        }
+      ]
+    },
+    "purpose": "revealed_review_calibration_not_holdout",
+    "labels_verified": false
+  },
+  {
+    "id": "cr-06",
+    "document_id": "nit-goa-development",
+    "document_sha256": "cbc1d54d9880969657796e9a5865bcff07bf2264420b152cb1f20055868d6c80",
+    "question": "What summer registration deadline and amount must I pay?",
+    "source_pdf_page": 12,
+    "chunks": [
+      {
+        "text": "B17.2. Summer term courses will be announced by the AAC after the publication of results of the even semester, if a minimum of 20% of the total registered regular students fail in a course. A summer term course may be offered by a department on the recommendation of the CC/DCC and with the approval of the AAC. A student will have to register within the time stipulated in the announcement by paying the prescribed fees.\nB17.5. A student will have to register within the time stipulated in the announcement by paying the prescribed fees of ₹ 5000/- per course. The amount will change periodically as per Senate approval. (Amended in 23rd Senate meeting)",
+        "page": 12
+      }
+    ],
+    "selection": {
+      "status": "answer",
+      "claims": [
+        {
+          "source": "C1",
+          "provision": "P1"
+        }
+      ]
+    },
+    "purpose": "revealed_review_calibration_not_holdout",
+    "labels_verified": false
+  },
+  {
+    "id": "cr-07",
+    "document_id": "nit-goa-development",
+    "document_sha256": "cbc1d54d9880969657796e9a5865bcff07bf2264420b152cb1f20055868d6c80",
+    "question": "What summer registration deadline and amount must I pay?",
+    "source_pdf_page": 12,
+    "chunks": [
+      {
+        "text": "B17.2. Summer term courses will be announced by the AAC after the publication of results of the even semester, if a minimum of 20% of the total registered regular students fail in a course. A summer term course may be offered by a department on the recommendation of the CC/DCC and with the approval of the AAC. A student will have to register within the time stipulated in the announcement by paying the prescribed fees.\nB17.5. A student will have to register within the time stipulated in the announcement by paying the prescribed fees of ₹ 5000/- per course. The amount will change periodically as per Senate approval. (Amended in 23rd Senate meeting)",
+        "page": 12
+      }
+    ],
+    "selection": {
+      "status": "answer",
+      "claims": [
+        {
+          "source": "C1",
+          "provision": "P2"
+        }
+      ]
+    },
+    "purpose": "revealed_review_calibration_not_holdout",
+    "labels_verified": false
+  },
+  {
+    "id": "cr-08",
+    "document_id": "nit-goa-development",
+    "document_sha256": "cbc1d54d9880969657796e9a5865bcff07bf2264420b152cb1f20055868d6c80",
+    "question": "If I pay my semester fees after classes start, how much is the late fee, and by when must I pay?",
+    "source_pdf_page": 12,
+    "chunks": [
+      {
+        "text": "B17.2. Summer term courses will be announced by the AAC after the publication of results of the even semester, if a minimum of 20% of the total registered regular students fail in a course. A summer term course may be offered by a department on the recommendation of the CC/DCC and with the approval of the AAC. A student will have to register within the time stipulated in the announcement by paying the prescribed fees.\nB17.5. A student will have to register within the time stipulated in the announcement by paying the prescribed fees of ₹ 5000/- per course. The amount will change periodically as per Senate approval. (Amended in 23rd Senate meeting)",
+        "page": 12
+      }
+    ],
+    "selection": {
+      "status": "answer",
+      "claims": [
+        {
+          "source": "C1",
+          "provision": "P2"
+        }
+      ]
+    },
+    "purpose": "revealed_review_calibration_not_holdout",
+    "labels_verified": false
+  },
+  {
+    "id": "cr-09",
+    "document_id": "nit-goa-development",
+    "document_sha256": "cbc1d54d9880969657796e9a5865bcff07bf2264420b152cb1f20055868d6c80",
+    "question": "I temporarily discontinued studies. Who decides my courses when I return and who is informed?",
+    "source_pdf_page": 9,
+    "chunks": [
+      {
+        "text": "B8.1. A student may be permitted by the AAC to discontinue temporarily from the programme for a semester or a longer period for reasons of medical problems or other valid reasons. Normally, a student will be permitted to discontinue from the programme only for a maximum duration of two semesters.\nB8.2. Once the student resumes back to his/her course work, post temporary discontinuity, the creditable courses to be registered will be decided by the faculty adviser in consultation with Head of the Dept. The same shall be communicated to AAC.",
+        "page": 9
+      }
+    ],
+    "selection": {
+      "status": "answer",
+      "claims": [
+        {
+          "source": "C1",
+          "provision": "P2"
+        }
+      ]
+    },
+    "purpose": "revealed_review_calibration_not_holdout",
+    "labels_verified": false
+  },
+  {
+    "id": "cr-10",
+    "document_id": "nit-goa-development",
+    "document_sha256": "cbc1d54d9880969657796e9a5865bcff07bf2264420b152cb1f20055868d6c80",
+    "question": "I temporarily discontinued studies. Who decides my courses when I return and who is informed?",
+    "source_pdf_page": 9,
+    "chunks": [
+      {
+        "text": "B8.1. A student may be permitted by the AAC to discontinue temporarily from the programme for a semester or a longer period for reasons of medical problems or other valid reasons. Normally, a student will be permitted to discontinue from the programme only for a maximum duration of two semesters.\nB8.2. Once the student resumes back to his/her course work, post temporary discontinuity, the creditable courses to be registered will be decided by the faculty adviser in consultation with Head of the Dept. The same shall be communicated to AAC.",
+        "page": 9
+      }
+    ],
+    "selection": {
+      "status": "answer",
+      "claims": [
+        {
+          "source": "C1",
+          "provision": "P1"
+        }
+      ]
+    },
+    "purpose": "revealed_review_calibration_not_holdout",
+    "labels_verified": false
+  },
+  {
+    "id": "cr-11",
+    "document_id": "nit-goa-development",
+    "document_sha256": "cbc1d54d9880969657796e9a5865bcff07bf2264420b152cb1f20055868d6c80",
+    "question": "Can I get an individual attendance approval automatically if I meet the medical percentages?",
+    "source_pdf_page": 10,
+    "chunks": [
+      {
+        "text": "B11.4. Those who have 80% or more attendance for the period other than their medical leave will be considered for condonation of shortage of attendance, provided, the overall attendance in the course including the period of illness does not fall below 75%. Application for condonation, recommended by the Faculty Advisor, concerned faculty and the HoD is to be submitted to the AAC on or before the last instructional day of the semester. The AAC, depending on the merit of the case may permit the student to appear for the end semester exam. A student will be eligible for this concession at most in two semesters during the entire degree programme. Application for medical leave, supported by medical certificate with endorsement by the Institute Medical Officer (IMO), should reach the HoD within seven days after returning from leave or, on or before the last instructional day of the semester, whichever is earlier.",
+        "page": 10
+      }
+    ],
+    "selection": {
+      "status": "answer",
+      "claims": [
+        {
+          "source": "C1",
+          "provision": "P1"
+        }
+      ]
+    },
+    "purpose": "revealed_review_calibration_not_holdout",
+    "labels_verified": false
+  },
+  {
+    "id": "cr-12",
+    "document_id": "nit-goa-development",
+    "document_sha256": "cbc1d54d9880969657796e9a5865bcff07bf2264420b152cb1f20055868d6c80",
+    "question": "What summer registration deadline and amount must I pay?",
+    "source_pdf_page": 12,
+    "chunks": [
+      {
+        "text": "B17.2. Summer term courses will be announced by the AAC after the publication of results of the even semester, if a minimum of 20% of the total registered regular students fail in a course. A summer term course may be offered by a department on the recommendation of the CC/DCC and with the approval of the AAC. A student will have to register within the time stipulated in the announcement by paying the prescribed fees.\nB17.5. A student will have to register within the time stipulated in the announcement by paying the prescribed fees of ₹ 5000/- per course. The amount will change periodically as per Senate approval. (Amended in 23rd Senate meeting)",
+        "page": 12
+      }
+    ],
+    "selection": {
+      "status": "answer",
+      "claims": [
+        {
+          "source": "C1",
+          "quote": "B17.5. A student will have to register within the time stipulated in the announcement by paying the prescribed fees of ₹ 6000/- per course. The amount will change periodically as per Senate approval. (Amended in 23rd Senate meeting)"
+        }
+      ]
+    },
+    "purpose": "revealed_review_calibration_not_holdout",
+    "labels_verified": false
+  }
+]

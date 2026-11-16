@@ -1,0 +1,21 @@
+{
+  "status": "interrupted_for_additional_source_completion_fix",
+  "question_ids": [
+    "ps1-02",
+    "ps1-14",
+    "ps1-21"
+  ],
+  "modes": [
+    "raw",
+    "hyde",
+    "fusion"
+  ],
+  "labels_verified": false,
+  "evaluation": "diagnostic_subset_not_accuracy_benchmark",
+  "provider_policy": "groq_only_fallback_disabled",
+  "embedding_model": "BAAI/bge-small-en-v1.5",
+  "top_k": 5,
+  "confidence_threshold": 0.35,
+  "source_sha256": "cbc1d54d9880969657796e9a5865bcff07bf2264420b152cb1f20055868d6c80",
+  "publication_note": "Provenance subset; private runtime fields and raw traces are omitted."
+}

@@ -1,0 +1,2 @@
+# Optional only; verified against official SDK v2.3.0. Python 3.11+.
+mcp>=2.3,<3

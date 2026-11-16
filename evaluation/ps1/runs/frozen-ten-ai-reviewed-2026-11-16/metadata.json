@@ -1,0 +1,28 @@
+{
+  "status": "completed",
+  "question_ids": [
+    "fresh-01",
+    "fresh-02",
+    "fresh-03",
+    "fresh-04",
+    "fresh-05",
+    "fresh-06",
+    "fresh-07",
+    "fresh-08",
+    "fresh-09",
+    "fresh-10"
+  ],
+  "modes": [
+    "raw",
+    "hyde",
+    "fusion"
+  ],
+  "labels_verified": false,
+  "evaluation": "diagnostic_subset_not_accuracy_benchmark",
+  "provider_policy": "groq_only_fallback_disabled",
+  "embedding_model": "BAAI/bge-small-en-v1.5",
+  "top_k": 5,
+  "confidence_threshold": 0.35,
+  "source_sha256": "cbc1d54d9880969657796e9a5865bcff07bf2264420b152cb1f20055868d6c80",
+  "publication_note": "Provenance subset; private runtime fields and raw traces are omitted."
+}

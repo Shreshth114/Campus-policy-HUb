@@ -1,0 +1,40 @@
+{
+  "purpose": "review_calibration_not_holdout",
+  "human_exposure_attested": false,
+  "cases": "review-packet/cases.json",
+  "annotations": "review-packet/annotations.template.json",
+  "documents": [
+    {
+      "id": "nit-goa-development",
+      "path": "LOCAL_POLICY_PDFS/BTech_(Rules_&_Regulations)2013_21nov2023.pdf",
+      "sha256": "cbc1d54d9880969657796e9a5865bcff07bf2264420b152cb1f20055868d6c80",
+      "institution": "NIT Goa",
+      "layout_outcome": "answer_supported"
+    }
+  ],
+  "development_document_sha256": [
+    "cbc1d54d9880969657796e9a5865bcff07bf2264420b152cb1f20055868d6c80"
+  ],
+  "development_question_sha256": [
+    "d9a30b5f3ba43f4771c54add400e7afcdcaaf677cf3819fe717d2e5fec80046e",
+    "1d15b0a1c0eefc43c56625f7c319d0558d40d1a86f9aacf61a56bf51b5406fb1",
+    "4e4ec2ef82e640ce0668b4f52d56943a32d95c0e3e1a8ad6c309e6645cab48ef",
+    "d9a30b5f3ba43f4771c54add400e7afcdcaaf677cf3819fe717d2e5fec80046e",
+    "73faea62b0ec56f9400ef4ea02f2397e095ce1fd2c6b38c81c8cc924a6ea1d34",
+    "60e6fbba41dfe1eb01b6102966acc645ec08402cfd50a5d78e34c03f7a2f1816",
+    "60e6fbba41dfe1eb01b6102966acc645ec08402cfd50a5d78e34c03f7a2f1816",
+    "6b9c0e8662cafc5d84566610a52a3619bcda0f3f461cd9ad394fa078b9f0d323",
+    "4ef0796ec805db9d98f4a349d2dc8d0f70037a5b4a9261b82f9ab11803a1de9a",
+    "4ef0796ec805db9d98f4a349d2dc8d0f70037a5b4a9261b82f9ab11803a1de9a",
+    "52761ae3ac1561f3ab103c8ea0c67605b2cebbb975c1ac6ae5a5da595bb19853",
+    "60e6fbba41dfe1eb01b6102966acc645ec08402cfd50a5d78e34c03f7a2f1816"
+  ],
+  "modes": [
+    "raw",
+    "hyde",
+    "fusion"
+  ],
+  "fallback_policy": "groq_only_no_provider_fallback",
+  "answer_cache": false,
+  "hyde_cache": false
+}

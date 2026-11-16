@@ -1,0 +1,254 @@
+[
+  {
+    "case_id": "cr-01",
+    "human_reviewed": false,
+    "review_origin": null,
+    "reviewer": null,
+    "source_pdf_checked": false,
+    "adjudication_status": "pending",
+    "dimensions": {
+      "relevant": null,
+      "complete": null,
+      "supported": null,
+      "qualifications_preserved": null
+    },
+    "selection_acceptable": null,
+    "citation_correct": null,
+    "appropriate_outcome": null,
+    "notes": "",
+    "required_qualifications": [],
+    "atomic_requirements": [],
+    "supporting_provisions": []
+  },
+  {
+    "case_id": "cr-02",
+    "human_reviewed": false,
+    "review_origin": null,
+    "reviewer": null,
+    "source_pdf_checked": false,
+    "adjudication_status": "pending",
+    "dimensions": {
+      "relevant": null,
+      "complete": null,
+      "supported": null,
+      "qualifications_preserved": null
+    },
+    "selection_acceptable": null,
+    "citation_correct": null,
+    "appropriate_outcome": null,
+    "notes": "",
+    "required_qualifications": [],
+    "atomic_requirements": [],
+    "supporting_provisions": []
+  },
+  {
+    "case_id": "cr-03",
+    "human_reviewed": false,
+    "review_origin": null,
+    "reviewer": null,
+    "source_pdf_checked": false,
+    "adjudication_status": "pending",
+    "dimensions": {
+      "relevant": null,
+      "complete": null,
+      "supported": null,
+      "qualifications_preserved": null
+    },
+    "selection_acceptable": null,
+    "citation_correct": null,
+    "appropriate_outcome": null,
+    "notes": "",
+    "required_qualifications": [],
+    "atomic_requirements": [],
+    "supporting_provisions": []
+  },
+  {
+    "case_id": "cr-04",
+    "human_reviewed": false,
+    "review_origin": null,
+    "reviewer": null,
+    "source_pdf_checked": false,
+    "adjudication_status": "pending",
+    "dimensions": {
+      "relevant": null,
+      "complete": null,
+      "supported": null,
+      "qualifications_preserved": null
+    },
+    "selection_acceptable": null,
+    "citation_correct": null,
+    "appropriate_outcome": null,
+    "notes": "",
+    "required_qualifications": [],
+    "atomic_requirements": [],
+    "supporting_provisions": []
+  },
+  {
+    "case_id": "cr-05",
+    "human_reviewed": false,
+    "review_origin": null,
+    "reviewer": null,
+    "source_pdf_checked": false,
+    "adjudication_status": "pending",
+    "dimensions": {
+      "relevant": null,
+      "complete": null,
+      "supported": null,
+      "qualifications_preserved": null
+    },
+    "selection_acceptable": null,
+    "citation_correct": null,
+    "appropriate_outcome": null,
+    "notes": "",
+    "required_qualifications": [],
+    "atomic_requirements": [],
+    "supporting_provisions": []
+  },
+  {
+    "case_id": "cr-06",
+    "human_reviewed": false,
+    "review_origin": null,
+    "reviewer": null,
+    "source_pdf_checked": false,
+    "adjudication_status": "pending",
+    "dimensions": {
+      "relevant": null,
+      "complete": null,
+      "supported": null,
+      "qualifications_preserved": null
+    },
+    "selection_acceptable": null,
+    "citation_correct": null,
+    "appropriate_outcome": null,
+    "notes": "",
+    "required_qualifications": [],
+    "atomic_requirements": [],
+    "supporting_provisions": []
+  },
+  {
+    "case_id": "cr-07",
+    "human_reviewed": false,
+    "review_origin": null,
+    "reviewer": null,
+    "source_pdf_checked": false,
+    "adjudication_status": "pending",
+    "dimensions": {
+      "relevant": null,
+      "complete": null,
+      "supported": null,
+      "qualifications_preserved": null
+    },
+    "selection_acceptable": null,
+    "citation_correct": null,
+    "appropriate_outcome": null,
+    "notes": "",
+    "required_qualifications": [],
+    "atomic_requirements": [],
+    "supporting_provisions": []
+  },
+  {
+    "case_id": "cr-08",
+    "human_reviewed": false,
+    "review_origin": null,
+    "reviewer": null,
+    "source_pdf_checked": false,
+    "adjudication_status": "pending",
+    "dimensions": {
+      "relevant": null,
+      "complete": null,
+      "supported": null,
+      "qualifications_preserved": null
+    },
+    "selection_acceptable": null,
+    "citation_correct": null,
+    "appropriate_outcome": null,
+    "notes": "",
+    "required_qualifications": [],
+    "atomic_requirements": [],
+    "supporting_provisions": []
+  },
+  {
+    "case_id": "cr-09",
+    "human_reviewed": false,
+    "review_origin": null,
+    "reviewer": null,
+    "source_pdf_checked": false,
+    "adjudication_status": "pending",
+    "dimensions": {
+      "relevant": null,
+      "complete": null,
+      "supported": null,
+      "qualifications_preserved": null
+    },
+    "selection_acceptable": null,
+    "citation_correct": null,
+    "appropriate_outcome": null,
+    "notes": "",
+    "required_qualifications": [],
+    "atomic_requirements": [],
+    "supporting_provisions": []
+  },
+  {
+    "case_id": "cr-10",
+    "human_reviewed": false,
+    "review_origin": null,
+    "reviewer": null,
+    "source_pdf_checked": false,
+    "adjudication_status": "pending",
+    "dimensions": {
+      "relevant": null,
+      "complete": null,
+      "supported": null,
+      "qualifications_preserved": null
+    },
+    "selection_acceptable": null,
+    "citation_correct": null,
+    "appropriate_outcome": null,
+    "notes": "",
+    "required_qualifications": [],
+    "atomic_requirements": [],
+    "supporting_provisions": []
+  },
+  {
+    "case_id": "cr-11",
+    "human_reviewed": false,
+    "review_origin": null,
+    "reviewer": null,
+    "source_pdf_checked": false,
+    "adjudication_status": "pending",
+    "dimensions": {
+      "relevant": null,
+      "complete": null,
+      "supported": null,
+      "qualifications_preserved": null
+    },
+    "selection_acceptable": null,
+    "citation_correct": null,
+    "appropriate_outcome": null,
+    "notes": "",
+    "required_qualifications": [],
+    "atomic_requirements": [],
+    "supporting_provisions": []
+  },
+  {
+    "case_id": "cr-12",
+    "human_reviewed": false,
+    "review_origin": null,
+    "reviewer": null,
+    "source_pdf_checked": false,
+    "adjudication_status": "pending",
+    "dimensions": {
+      "relevant": null,
+      "complete": null,
+      "supported": null,
+      "qualifications_preserved": null
+    },
+    "selection_acceptable": null,
+    "citation_correct": null,
+    "appropriate_outcome": null,
+    "notes": "",
+    "required_qualifications": [],
+    "atomic_requirements": [],
+    "supporting_provisions": []
+  }
+]

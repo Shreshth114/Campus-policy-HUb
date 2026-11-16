@@ -1,0 +1,26 @@
+{"id": "q01", "query": "my band has a gig next friday can i skip lab and make it up later", "gold_chunk_ids": [], "gold_doc": "attendance_policy", "gold_section": "", "type": "casual", "labels_verified": false}
+{"id": "q02", "query": "how many classes can i miss before im in trouble", "gold_chunk_ids": [], "gold_doc": "attendance_policy", "gold_section": "", "type": "casual", "labels_verified": false}
+{"id": "q03", "query": "i was sick for a week do i need a doctors note or something", "gold_chunk_ids": [], "gold_doc": "attendance_policy", "gold_section": "", "type": "casual", "labels_verified": false}
+{"id": "q04", "query": "can i write the exam from home if i have covid", "gold_chunk_ids": [], "gold_doc": "exam_policy", "gold_section": "", "type": "casual", "labels_verified": false}
+{"id": "q05", "query": "i failed a subject last sem can i retake just the exam", "gold_chunk_ids": [], "gold_doc": "backlog_policy", "gold_section": "", "type": "casual", "labels_verified": false}
+{"id": "q06", "query": "whats the minimum attendance to sit for exams", "gold_chunk_ids": [], "gold_doc": "attendance_policy", "gold_section": "", "type": "casual", "labels_verified": false}
+{"id": "q07", "query": "my marks seem wrong can i get my paper rechecked", "gold_chunk_ids": [], "gold_doc": "revaluation_policy", "gold_section": "", "type": "casual", "labels_verified": false}
+{"id": "q08", "query": "do i need permission to go home for a family emergency", "gold_chunk_ids": [], "gold_doc": "leave_policy", "gold_section": "", "type": "casual", "labels_verified": false}
+{"id": "q09", "query": "can i change my elective after registration", "gold_chunk_ids": [], "gold_doc": "registration_policy", "gold_section": "", "type": "casual", "labels_verified": false}
+{"id": "q10", "query": "is there extra time on exams if i have a learning disability", "gold_chunk_ids": [], "gold_doc": "accommodation_policy", "gold_section": "", "type": "casual", "labels_verified": false}
+{"id": "q11", "query": "what happens if i get caught cheating on an exam", "gold_chunk_ids": [], "gold_doc": "discipline_policy", "gold_section": "", "type": "casual", "labels_verified": false}
+{"id": "q12", "query": "can my internship count as attendance", "gold_chunk_ids": [], "gold_doc": "attendance_policy", "gold_section": "", "type": "casual", "labels_verified": false}
+{"id": "q13", "query": "i missed the internal assessment can i take a makeup test", "gold_chunk_ids": [], "gold_doc": "exam_policy", "gold_section": "", "type": "casual", "labels_verified": false}
+{"id": "q14", "query": "how do i apply for a leave of absence for a semester", "gold_chunk_ids": [], "gold_doc": "leave_policy", "gold_section": "", "type": "casual", "labels_verified": false}
+{"id": "q15", "query": "what is the grading scale here", "gold_chunk_ids": [], "gold_doc": "exam_policy", "gold_section": "", "type": "casual", "labels_verified": false}
+{"id": "q16", "query": "can i get a recommendation letter from my professor", "gold_chunk_ids": [], "expect": "abstain", "type": "out_of_scope", "labels_verified": false}
+{"id": "q17", "query": "whats the best restaurant near campus", "gold_chunk_ids": [], "expect": "abstain", "type": "out_of_scope", "labels_verified": false}
+{"id": "q18", "query": "can you help me write my assignment", "gold_chunk_ids": [], "expect": "abstain", "type": "out_of_scope", "labels_verified": false}
+{"id": "q19", "query": "what is the meaning of life", "gold_chunk_ids": [], "expect": "abstain", "type": "out_of_scope", "labels_verified": false}
+{"id": "q20", "query": "how many leaves can i take before getting in trouble", "gold_chunk_ids": [], "gold_doc": "attendance_policy", "gold_section": "", "type": "paraphrase_q02", "labels_verified": false}
+{"id": "q21", "query": "what is the maximum number of absences allowed", "gold_chunk_ids": [], "gold_doc": "attendance_policy", "gold_section": "", "type": "paraphrase_q02", "labels_verified": false}
+{"id": "q22", "query": "i want to challenge my exam grade", "gold_chunk_ids": [], "gold_doc": "revaluation_policy", "gold_section": "", "type": "paraphrase_q07", "labels_verified": false}
+{"id": "q23", "query": "is there a process to dispute my test results", "gold_chunk_ids": [], "gold_doc": "revaluation_policy", "gold_section": "", "type": "paraphrase_q07", "labels_verified": false}
+{"id": "q24", "query": "my performance gig means i have to miss class is that ok", "gold_chunk_ids": [], "gold_doc": "attendance_policy", "gold_section": "", "type": "decoy_tempting", "labels_verified": false}
+{"id": "q25", "query": "do musicians get special attendance exemptions", "gold_chunk_ids": [], "gold_doc": "attendance_policy", "gold_section": "", "type": "decoy_tempting", "labels_verified": false}
+

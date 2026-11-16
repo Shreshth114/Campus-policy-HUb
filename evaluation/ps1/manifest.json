@@ -1,0 +1,17 @@
+{
+  "status": "draft_not_scored",
+  "source_filename": "BTech_(Rules_&_Regulations)2013_21nov2023.pdf",
+  "source_sha256": "cbc1d54d9880969657796e9a5865bcff07bf2264420b152cb1f20055868d6c80",
+  "candidate_chunk_count": 114,
+  "chunk_mapping": "offline_reconstruction_not_live_database_verification",
+  "embedding_model": "BAAI/bge-small-en-v1.5",
+  "top_k": 5,
+  "hyde_max_tokens": 200,
+  "primary_provider": "groq",
+  "primary_model": "openai/gpt-oss-120b",
+  "hyde_prompt_sha256": "301caba07f149ddf80095f705a0657ac54d476dcd8b2c9866b118c55c8401c7c",
+  "split_seed": 16112026,
+  "labels_verified": false,
+  "question_set_sha256": "4859a901ebe1525d9a2f97ff66ea16a4f0ec119299d3b2efea02474f3e363a6d",
+  "review_status": "awaiting_human_review"
+}
