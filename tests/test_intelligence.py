@@ -100,3 +100,69 @@ def test_old_version_rules_remain_comparable_but_not_retrievable(client,monkeypa
 def test_invented_units_subjects_and_omitted_exceptions_rejected(changes):
     source=chunk(text=QUOTE+' Unless prior approval is granted.')
     assert intel.validate_rule(raw(**changes),source) is None
+
+
+def test_extraction_provider_failure_stays_partial_and_blocks_comparison(client,monkeypatch):
+    from src.llm import ProviderUnavailableError
+    _,headers=create(client);entry=uploaded(client,headers,QUOTE)
+    monkeypatch.setattr(intel,'get_llm_client',lambda:SimpleNamespace(chat=AsyncMock(side_effect=ProviderUnavailableError('fixture',provider='groq',retry_after=500))))
+    monkeypatch.setattr(intel.asyncio,'sleep',AsyncMock())
+    result=client.post('/personal/rules/extract',headers=headers,json={'document_id':entry['doc_id']}).json()
+    assert result['errors'] and result['status']=='partial'
+    response=client.post('/personal/changes',headers=headers,json={'old_document_id':entry['doc_id'],'old_version_id':entry['version_id'],'new_document_id':entry['doc_id'],'new_version_id':entry['version_id']}).json()
+    assert response['status']=='blocked'
+
+
+def test_extraction_resume_skips_only_successful_batches(client,monkeypatch):
+    from src.llm import ProviderUnavailableError
+    from src.institutions import current
+    _,headers=create(client);entry=uploaded(client,headers,QUOTE)
+    rows=[chunk(chunk_id=f'chunk{i}',doc_id=entry['doc_id'],version_id=entry['version_id']) for i in range(7)]
+    monkeypatch.setattr(intel,'chunks_for',lambda entry:rows)
+    monkeypatch.setattr(intel,'RULE_EXTRACTION_PAUSE',0)
+    seen=[];fail=True
+    async def chat(messages,**kwargs):
+        nonlocal fail
+        batch=json.loads(messages[1]['content']);seen.append([c['chunk_id'] for c in batch])
+        if fail and len(seen)==2:raise ProviderUnavailableError('fixture',provider='groq')
+        return LLMResponse(json.dumps({'rules':[raw(chunk_id=batch[0]['chunk_id'])]}),'fixture','fixture',1)
+    monkeypatch.setattr(intel,'get_llm_client',lambda:SimpleNamespace(chat=chat))
+    first=client.post('/personal/rules/extract',headers=headers,json={'document_id':entry['doc_id']}).json()
+    assert first['status']=='partial' and first['rules']==1
+    fail=False;seen.clear()
+    second=client.post('/personal/rules/extract',headers=headers,json={'document_id':entry['doc_id']}).json()
+    assert second['status']=='complete' and second['rules']==3
+    assert seen==[['chunk3','chunk4','chunk5'],['chunk6']]
+    seen.clear()
+    assert client.post('/personal/rules/extract',headers=headers,json={'document_id':entry['doc_id']}).json()['cached_documents']==1
+    assert not seen
+
+
+def test_extraction_timeout_saves_batches_and_returns_retryable_state(client,monkeypatch):
+    import asyncio
+    _,headers=create(client);entry=uploaded(client,headers,QUOTE)
+    rows=[chunk(chunk_id=f'chunk{i}',doc_id=entry['doc_id'],version_id=entry['version_id']) for i in range(4)]
+    monkeypatch.setattr(intel,'chunks_for',lambda entry:rows)
+    monkeypatch.setattr(intel,'RULE_EXTRACTION_TIMEOUT',.1)
+    monkeypatch.setattr(intel,'RULE_EXTRACTION_PAUSE',0)
+    calls=0
+    async def chat(messages,**kwargs):
+        nonlocal calls
+        calls+=1
+        if calls==2:await asyncio.sleep(10)
+        return LLMResponse(json.dumps({'rules':[raw(chunk_id='chunk0')]}),'fixture','fixture',1)
+    monkeypatch.setattr(intel,'get_llm_client',lambda:SimpleNamespace(chat=chat))
+    result=client.post('/personal/rules/extract',headers=headers,json={'document_id':entry['doc_id']}).json()
+    assert result['status']=='partial' and result['errors'][0]['error']=='ExtractionTimeout'
+    with institutions.scope(personal.resolve(headers['X-Workspace-ID'])):
+        saved=next(iter(intel._cache().values()))
+        assert saved['partial'] and len(saved['completed_chunk_ids'])==3 and len(saved['rules'])==1
+
+
+def test_busy_extraction_fails_fast_without_provider_call(client,monkeypatch):
+    _,headers=create(client)
+    monkeypatch.setattr(intel,'_RULE_LOCK',SimpleNamespace(locked=lambda:True))
+    chat=AsyncMock();monkeypatch.setattr(intel,'get_llm_client',lambda:SimpleNamespace(chat=chat))
+    result=client.post('/personal/rules/extract',headers=headers,json={}).json()
+    assert result['status']=='busy' and result['errors']
+    chat.assert_not_called()
