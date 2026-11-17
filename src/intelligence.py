@@ -144,75 +144,103 @@ def list_rules():
         entry=document_entry(did);result.extend(rules_for(entry))
     return result
 
+RULE_EXTRACTION_TIMEOUT = 120.0
+RULE_EXTRACTION_PAUSE = 2.0
+EXTRACTION_STATE_VERSION = 2
+
+
+def extraction_complete(cached):
+    return bool(cached and cached.get('state_version')==EXTRACTION_STATE_VERSION and cached.get('partial') is False)
+
+
 async def extract_rules(document_id=None,version_id=None):
     if not current().personal:raise ValueError('Personal workspace required')
+    if _RULE_LOCK.locked():
+        return {'status':'busy','documents':0,'rules':0,'discarded':0,'cached_documents':0,
+                'errors':[{'error':'ExtractionBusy','message':'Another rule extraction is running. Wait for it to finish before retrying.'}]}
+    try:
+        async with asyncio.timeout(RULE_EXTRACTION_TIMEOUT):
+            return await _extract_rules(document_id,version_id)
+    except TimeoutError:
+        message='Extraction time limit reached. Completed batches are saved; retry to resume. Comparison has not run.'
+        path=workspace_path('processed')/'rules_activity.json'
+        try:activity=json.loads(path.read_text())
+        except (OSError,ValueError):activity={}
+        write_json(path,{**activity,'status':'partial','message':message})
+        return {'status':'partial','documents':0,'rules':0,'discarded':0,'cached_documents':0,
+                'errors':[{'error':'ExtractionTimeout','message':message}]}
+
+
+async def _extract_rules(document_id,version_id):
     async with _RULE_LOCK:
         entries=[document_entry(document_id,version_id)] if document_id else [document_entry(did) for did in eligible_sources()]
-        summary={'documents':0,'rules':0,'discarded':0,'cached_documents':0,'errors':[],'total_chunks_evaluated':0,'chunks_sent':0}
+        summary={'status':'complete','documents':0,'rules':0,'discarded':0,'cached_documents':0,'errors':[],
+                 'total_chunks_evaluated':0,'chunks_sent':0}
         for entry in entries:
             chunks=await asyncio.to_thread(chunks_for,entry)
-            if not chunks:summary['errors'].append({'document':entry['doc_title'],'error':'No indexed extractable text for this version'});continue
-            key=_key(entry);cache=_cache()
-            if key in cache and not cache[key].get('partial'):
+            if not chunks:
+                summary['errors'].append({'document':entry['doc_title'],'error':'No indexed extractable text for this version'})
+                summary['status']='partial';continue
+            key=_key(entry);cache=_cache();saved=cache.get(key,{})
+            if extraction_complete(saved):
                 summary['rules']+=len(rules_for(entry));summary['cached_documents']+=1;continue
-
+            candidates=[c for c in chunks if is_rule_candidate(c['text'])]
             summary['total_chunks_evaluated']+=len(chunks)
-            candidate_chunks=[c for c in chunks if is_rule_candidate(c['text'])]
-            summary['chunks_sent']+=len(candidate_chunks)
-
-            accepted={}
-            if key in cache and cache[key].get('rules'):
-                for r in cache[key]['rules']:accepted[r['rule_id']]=r
-
+            # Only explicitly completed batches from this exact file/prompt/model
+            # cache key can be skipped. Legacy partial rules are preserved, but
+            # legacy completion flags cannot prove that every batch ran.
+            completed=set(saved.get('completed_chunk_ids',[])) if saved.get('state_version')==EXTRACTION_STATE_VERSION else set()
+            completed &= {c['chunk_id'] for c in candidates}
+            remaining=[c for c in candidates if c['chunk_id'] not in completed]
+            summary['chunks_sent']+=len(remaining)
+            accepted={r['rule_id']:r for r in rules_for(entry)}
+            def persist(partial=True):
+                cache=_cache();cache[key]={'state_version':EXTRACTION_STATE_VERSION,'document_id':entry['doc_id'],
+                    'rules':list(accepted.values()),'file_hash':entry['file_hash'],'workspace_id':current().workspace_id,
+                    'partial':partial,'completed_chunk_ids':sorted(completed)}
+                write_json(workspace_path('processed')/'rules.json',cache)
+            persist()  # Cancellation/provider failure must never leave a complete cache.
             discarded=0;failed=False
-
-            if not candidate_chunks:
-                cache=_cache();cache[key]={'document_id':entry['doc_id'],'rules':[],'file_hash':entry['file_hash'],'workspace_id':current().workspace_id,'partial':False}
-                write_json(workspace_path('processed')/'rules.json',cache)
-                summary['documents']+=1;continue
-
-            batch_size=3;inter_batch_pause=2.0
-
-            for offset in range(0,len(candidate_chunks),batch_size):
-                batch=candidate_chunks[offset:offset+batch_size];lookup={c['chunk_id']:c for c in batch}
-                progress_msg=f"Extracted {len(accepted)} rules from {offset}/{len(candidate_chunks)} candidate chunks..."
-                write_json(workspace_path('processed')/'rules_activity.json',{'status':'running','document':entry['doc_title'],'processed_chunks':offset,'total_chunks':len(candidate_chunks),'extracted_rules':len(accepted),'message':progress_msg})
-
-                if offset>0:await asyncio.sleep(inter_batch_pause)
-
-                max_retries=3
-                for attempt in range(max_retries):
-                    try:
-                        response=await get_llm_client().chat(messages=[{'role':'system','content':RULE_EXTRACTION_PROMPT},{'role':'user','content':json.dumps([{'chunk_id':c['chunk_id'],'text':c['text']} for c in batch])}],max_tokens=1600,temperature=0)
-                        rows=parse_json(response.text).get('rules',[])
-                        if not isinstance(rows,list):raise ValueError('Expected rule list')
-                        for raw in rows:
-                            chunk=lookup.get(raw.get('chunk_id')) if isinstance(raw,dict) else None
-                            valid=validate_rule(raw,chunk) if chunk else None
-                            if valid:accepted[valid['rule_id']]=valid
-                            else:discarded+=1
-                        break
-                    except ProviderUnavailableError as exc:
-                        wait_s=float(exc.retry_after or 15.0)
-                        print(f"  [intelligence] Rate limited during rule extraction, waiting {wait_s:.1f}s and resuming...")
-                        write_json(workspace_path('processed')/'rules_activity.json',{'status':'running','document':entry['doc_title'],'processed_chunks':offset,'total_chunks':len(candidate_chunks),'extracted_rules':len(accepted),'message':f"Provider rate limited. Waiting {int(wait_s)}s to resume..."})
-                        await asyncio.sleep(wait_s)
-                    except Exception as exc:
-                        if attempt<max_retries-1:await asyncio.sleep(2.0)
-                        else:summary['errors'].append({'document':entry['doc_title'],'error':type(exc).__name__});failed=True;break
-
-                cache=_cache();cache[key]={'document_id':entry['doc_id'],'rules':list(accepted.values()),'file_hash':entry['file_hash'],'workspace_id':current().workspace_id,'partial':True}
-                write_json(workspace_path('processed')/'rules.json',cache)
-
+            for offset in range(0,len(remaining),3):
+                batch=remaining[offset:offset+3];lookup={c['chunk_id']:c for c in batch}
+                write_json(workspace_path('processed')/'rules_activity.json',{
+                    'status':'running','document':entry['doc_title'],'processed_chunks':len(completed),
+                    'total_chunks':len(candidates),'extracted_rules':len(accepted),
+                    'message':f'Processed {len(completed)}/{len(candidates)} candidate chunks; {len(accepted)} validated rules.'})
+                if offset:await asyncio.sleep(RULE_EXTRACTION_PAUSE)
+                try:
+                    response=await get_llm_client().chat(messages=[{'role':'system','content':RULE_EXTRACTION_PROMPT},
+                        {'role':'user','content':json.dumps([{'chunk_id':c['chunk_id'],'text':c['text']} for c in batch])}],
+                        max_tokens=1600,temperature=0)
+                    if getattr(response,'finish_reason',None)=='length':raise ValueError('Incomplete model response')
+                    rows=parse_json(response.text).get('rules',[])
+                    if not isinstance(rows,list):raise ValueError('Expected rule list')
+                    for raw in rows:
+                        chunk=lookup.get(raw.get('chunk_id')) if isinstance(raw,dict) else None
+                        valid=validate_rule(raw,chunk) if chunk else None
+                        if valid:accepted[valid['rule_id']]=valid
+                        else:discarded+=1
+                    completed.update(lookup)
+                except Exception as exc:
+                    # The unified client already bounds its transport retries.
+                    # Do not sleep through arbitrary Retry-After values here.
+                    error={'document':entry['doc_title'],'error':type(exc).__name__,
+                           'message':'Rule extraction interrupted. Completed batches are saved; retry to resume.'}
+                    if isinstance(exc,ProviderUnavailableError):
+                        error['message']='AI provider unavailable. Completed batches are saved; retry to resume.'
+                    summary['errors'].append(error);failed=True
+                persist()
                 if failed:break
-
-            if document_entry(entry['doc_id'],entry['version_id'] if version_id else None)['version_id']!=entry['version_id']:raise ValueError('Document replaced during rule extraction; retry')
-
-            cache=_cache();cache[key]={'document_id':entry['doc_id'],'rules':list(accepted.values()),'file_hash':entry['file_hash'],'workspace_id':current().workspace_id,'partial':False}
-            write_json(workspace_path('processed')/'rules.json',cache)
-            summary['documents']+=1;summary['rules']+=len(accepted);summary['discarded']+=discarded
-
-        write_json(workspace_path('processed')/'rules_activity.json',{'status':'complete',**summary,'message':f"Extraction complete: {summary['rules']} rules validated from {summary['documents']} document(s)."})
+            if document_entry(entry['doc_id'],entry['version_id'] if version_id else None)['version_id']!=entry['version_id']:
+                raise ValueError('Document replaced during rule extraction; retry')
+            persist(partial=failed)
+            summary['rules']+=len(accepted);summary['discarded']+=discarded
+            if failed:
+                summary['status']='partial';break
+            summary['documents']+=1
+        write_json(workspace_path('processed')/'rules_activity.json',{
+            **summary,'message':('Extraction incomplete. Retry to resume saved batches.' if summary['errors'] else
+                                f"Extraction complete: {summary['rules']} rules validated from {summary['documents']} document(s).")})
         return summary
 
 async def parse_facts(text):
@@ -330,7 +358,7 @@ def diff_rules(old,new):
 def compare_versions(old_document_id,old_version_id,new_document_id,new_version_id):
     old=document_entry(old_document_id,old_version_id);new=document_entry(new_document_id,new_version_id)
     cache=_cache()
-    if _key(old) not in cache or _key(new) not in cache:
+    if not extraction_complete(cache.get(_key(old))) or not extraction_complete(cache.get(_key(new))):
         return {'status':'blocked','message':'Extract validated rules for both selected versions before comparison.','changes':[]}
     return {'status':'completed','changes':diff_rules(rules_for(old),rules_for(new)),
             'notice':'Source-backed rule-table differences only. No official applicability, authority or winner is inferred.'}
