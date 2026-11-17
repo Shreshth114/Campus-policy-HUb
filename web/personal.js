@@ -4,12 +4,17 @@ const pEsc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt
 const PERSONAL_NOTICE='Based on documents you uploaded. Not verified by your institution.';
 let pId='',pEpoch=0,pFiles=[],pDocs=[],pRules=[],pFacts=[],pBusy=false,pReplace='',pBlob=null;
 function pSetWorkspace(id){pClosePreview(false);pInspectionEpoch++;pEl('personal-documents').hidden=false;window.CampusWhatIf?.clear();pId=id;pEpoch++;window.personalWorkspaceId=id;window.personalEpoch=pEpoch;for(const key of ['personal-result','personal-rules','personal-conflicts','personal-document-detail','personal-facts','compare-results','bench-content','personal-documents','personal-changes','evidence-content','label-content','personal-document-status'])pEl(key).textContent='';pFacts=[];pRules=[];pDocs=[];if(pBlob){URL.revokeObjectURL(pBlob);pBlob=null;}pEl('personal-facts-confirmed').checked=false;pEl('personal-applicability').checked=false;}
-async function pApi(path,body,method){
+async function pApi(path,body,method,options={}){
  const requestStarted=Date.now();
- const response=await fetch('/personal'+path,{method:method||(body===undefined?'GET':'POST'),headers:{...(pId?{'X-Workspace-ID':pId}:{}),...(body===undefined||body instanceof FormData?{}:{'Content-Type':'application/json'})},...(body===undefined?{}:{body:body instanceof FormData?body:JSON.stringify(body)})});
+ const controller=options.timeoutMs?new AbortController():null;
+ const timer=controller?setTimeout(()=>controller.abort(),options.timeoutMs):null;
+ try{
+ const response=await fetch('/personal'+path,{...(controller?{signal:controller.signal}:{}),method:method||(body===undefined?'GET':'POST'),headers:{...(pId?{'X-Workspace-ID':pId}:{}),...(body===undefined||body instanceof FormData?{}:{'Content-Type':'application/json'})},...(body===undefined?{}:{body:body instanceof FormData?body:JSON.stringify(body)})});
  let data;try{data=await response.json();}catch{throw new Error('Local service unavailable; check the server and retry.');}
  if(['/ask','/analyse','/compare'].includes(path)&&typeof SessionMetrics!=='undefined')SessionMetrics.record(data,Date.now()-requestStarted);
  if(!response.ok)throw new Error(typeof data.detail==='string'?data.detail:Array.isArray(data.detail)?data.detail.map(d=>d.msg).join('; '):'Request failed ('+response.status+')');return data;
+ }catch(error){if(controller?.signal.aborted)throw new Error(options.timeoutMessage||'Request timed out. The server may still be finishing; retry shortly.');throw error;}
+ finally{if(timer!==null)clearTimeout(timer);}
 }
 async function pEnsure(){
  if(pId)return pId;const created=await pApi('/workspaces',{college:pEl('personal-college').value});pSetWorkspace(created.workspace_id);localStorage.setItem('campus-personal-workspace',pId);await pRefresh();return pId;
@@ -184,16 +189,53 @@ async function pLoadChanges(){
  const ticket=pEpoch;try{const data=await pApi('/versions');if(ticket!==pEpoch)return;
  if(data.versions.length<2){pEl('personal-changes').textContent='Upload another document or replace a PDF to retain an earlier version for comparison.';return;}
  const options=data.versions.map((v,i)=>'<option value="'+i+'">'+pEsc(v.document)+' · '+pEsc(v.version_id.slice(0,10))+(v.current?' · current':' · earlier')+'</option>').join('');
- pEl('personal-changes').innerHTML='<div class="form"><label for="personal-old-version">Earlier / reference</label><select id="personal-old-version">'+options+'</select><label for="personal-new-version">New / comparison</label><select id="personal-new-version">'+options+'</select><button id="personal-compare-versions">Extract & compare selected versions</button></div><div id="personal-change-results"></div>';
+ pEl('personal-changes').innerHTML='<div class="form"><label for="personal-old-version">Earlier / reference</label><select id="personal-old-version">'+options+'</select><label for="personal-new-version">New / comparison</label><select id="personal-new-version">'+options+'</select><button id="personal-compare-versions">Extract & compare selected versions</button></div><div id="personal-change-results" role="status" aria-live="polite"></div>';
  pEl('personal-new-version').value='1';
- pEl('personal-compare-versions').onclick=()=>pRun('personal-change-results',async epoch=>{
- const old=data.versions[Number(pEl('personal-old-version').value)],next=data.versions[Number(pEl('personal-new-version').value)];
- if(old.document_id===next.document_id&&old.version_id===next.version_id)throw new Error('Choose two different document versions.');
- for(const v of [old,next]){const extracted=await pApi('/rules/extract',{document_id:v.document_id,version_id:v.version_id});if(extracted.errors.length)throw new Error('Rule extraction incomplete: '+JSON.stringify(extracted.errors));}
- const result=await pApi('/changes',{old_document_id:old.document_id,old_version_id:old.version_id,new_document_id:next.document_id,new_version_id:next.version_id});if(epoch!==pEpoch)return;
- pEl('personal-change-results').innerHTML='<p>'+pEsc(result.notice||result.message)+'</p>'+(result.changes.length?result.changes.map(c=>'<article class="result-card"><h3>'+pEsc(c.kind)+' · '+pEsc(c.subject)+'</h3><div class="columns"><div><h3>Reference</h3>'+c.old.map(r=>pRuleCard(r)).join('')+'</div><div><h3>Comparison</h3>'+c.new.map(r=>pRuleCard(r)).join('')+'</div></div></article>').join(''):'<p>No validated rule-table differences found, or extraction is incomplete. This is not a whole-document diff.</p>');
- });
+ pEl('personal-compare-versions').onclick=()=>pCompareVersions(data.versions);
+
  }catch(error){if(ticket===pEpoch)pEl('personal-changes').textContent=error.message;}
+}
+let pComparisonBusy=false;
+async function pCompareVersions(versions){
+ if(pComparisonBusy)return;
+ pComparisonBusy=true;
+ const button=pEl('personal-compare-versions'),oldSelect=pEl('personal-old-version'),newSelect=pEl('personal-new-version');
+ const originalLabel=button.textContent;
+ button.disabled=true;oldSelect.disabled=true;newSelect.disabled=true;
+ try{await pRun('personal-change-results',async epoch=>{
+  const old=versions[Number(oldSelect.value)],next=versions[Number(newSelect.value)];
+  if(!old||!next)throw new Error('Choose two document versions.');
+  if(old.document_id===next.document_id&&old.version_id===next.version_id)throw new Error('Choose two different document versions.');
+  for(const [index,v] of [old,next].entries()){
+   if(epoch!==pEpoch)return;
+   button.textContent='Extracting '+(index+1)+' of 2…';
+   const label='Document '+(index+1)+' of 2 · '+v.document;
+   pEl('personal-change-results').textContent=label+' — extracting validated rules. Large documents can require several batches.';
+   let active=true,timer;
+   const poll=async()=>{try{
+    const activity=await pApi('/rules/activity',undefined,undefined,{timeoutMs:10000});
+    if(active&&epoch===pEpoch&&activity.document===v.document&&activity.status==='running'){
+     pEl('personal-change-results').textContent=label+' — '+activity.message;
+    }
+   }catch{}finally{if(active&&epoch===pEpoch)timer=setTimeout(poll,1500);}};
+   timer=setTimeout(poll,500);
+   let extracted;
+   try{extracted=await pApi('/rules/extract',{document_id:v.document_id,version_id:v.version_id},undefined,{
+    timeoutMs:135000,timeoutMessage:'Extraction request timed out. Completed batches are saved. Wait briefly, then retry to resume; comparison has not run.'});}
+   finally{active=false;clearTimeout(timer);}
+   if(epoch!==pEpoch)return;
+   if(extracted.errors?.length||['partial','busy'].includes(extracted.status)){
+    const message=(extracted.errors||[]).map(e=>e.message||e.error).join(' ');
+    throw new Error(message||'Extraction incomplete. Retry to resume; comparison has not run.');
+   }
+  }
+  if(epoch!==pEpoch)return;
+  button.textContent='Comparing…';pEl('personal-change-results').textContent='Both extractions finished. Comparing validated numeric rules…';
+  const result=await pApi('/changes',{old_document_id:old.document_id,old_version_id:old.version_id,new_document_id:next.document_id,new_version_id:next.version_id},undefined,{timeoutMs:30000});
+  if(epoch!==pEpoch)return;
+  if(result.status!=='completed')throw new Error(result.message||'Comparison is unavailable until both extractions finish.');
+  pEl('personal-change-results').innerHTML='<p>'+pEsc(result.notice||result.message)+'</p>'+(result.changes.length?result.changes.map(c=>'<article class="result-card"><h3>'+pEsc(c.kind)+' · '+pEsc(c.subject)+'</h3><div class="columns"><div><h3>Reference</h3>'+c.old.map(r=>pRuleCard(r)).join('')+'</div><div><h3>Comparison</h3>'+c.new.map(r=>pRuleCard(r)).join('')+'</div></div></article>').join(''):'<p>No differences found in the validated numeric rule tables. This is not a whole-document diff.</p>');
+ });}finally{pComparisonBusy=false;button.disabled=false;oldSelect.disabled=false;newSelect.disabled=false;button.textContent=originalLabel;}
 }
 async function pRun(target,work){const ticket=pEpoch;pEl(target).textContent='Working…';pEl(target).classList?.toggle('loading',true);try{await work(ticket);}catch(error){if(ticket===pEpoch)pEl(target).textContent=error.message;}finally{pEl(target).classList?.toggle('loading',false);}}
 function pInit(){
@@ -228,7 +270,7 @@ function pInit(){
  pEl('personal-refresh-conflicts').onclick=pLoadConflicts;
 }
 if(typeof document!=='undefined')pInit();
-if(typeof module!=='undefined')module.exports={pEsc,pRuleCard,pRenderAnswer,pRenderAnalysis,pTrace,pSetWorkspace,pApi,pSelectFiles,pEnsure,pRefresh};
+if(typeof module!=='undefined')module.exports={pEsc,pRuleCard,pRenderAnswer,pRenderAnalysis,pTrace,pSetWorkspace,pApi,pSelectFiles,pEnsure,pRefresh,pLoadChanges,pCompareVersions};
 
 
 // Scenario values live only in this closure, never in confirmed facts or storage.
